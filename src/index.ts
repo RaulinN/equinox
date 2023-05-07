@@ -1,3 +1,3 @@
-import { hey } from './helper.js';
+import { hey } from '@my/helper.js';
 
 console.log(hey);
