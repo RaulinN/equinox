@@ -35,5 +35,8 @@
     "moduleNameMapper": {
       "@my/(.*)": "<rootDir>/src/mypackage/$1"
     }
+  },
+  "dependencies": {
+    "axios": "^1.4.0"
   }
 }
