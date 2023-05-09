@@ -4,6 +4,6 @@
   "entryPointStrategy": "expand",
   "out": "./docs",
   "readme": "./README.md",
-  "name": "Eclipse",
+  "name": "Equinox",
   "exclude": ["./src/index.ts"]
 }
