@@ -7,7 +7,8 @@
   "scripts": {
     "build": "tsc && tsc-alias",
     "start": "tsc && tsc-alias && node ./dist/index.js",
-    "test": "jest"
+    "clean": "rm -rf ./dist/",
+    "test": "jest --verbose --coverage --collectCoverageFrom=\"./src/**\""
   },
   "repository": {
     "type": "git",
@@ -17,7 +18,7 @@
   "license": "ISC",
   "include": [
     "./src/**/*.ts",
-    "./test/**/*.test.ts"
+    "./__tests__/**/*.test.ts"
   ],
   "exclude": [
     "./node_modules/**/*",
@@ -25,7 +26,8 @@
     "./dist/**/*"
   ],
   "dependencies": {
-    "axios": "^1.4.0"
+    "axios": "^1.4.0",
+    "winston": "^3.8.2"
   },
   "devDependencies": {
     "@types/jest": "^29.5.1",
@@ -44,7 +46,9 @@
       ".ts"
     ],
     "transform": {
-      "^.+\\.(ts|tsx)$": "ts-jest"
+      "^.+\\.(ts|tsx)$": ["ts-jest", {
+        "useESM": true
+      }]
     },
     "transformIgnorePatterns": [
       "./node_modules/"
@@ -52,12 +56,8 @@
     "moduleNameMapper": {
       "@src/(.*)": "<rootDir>/src/$1",
       "@model/(.*)": "<rootDir>/src/model/$1",
+      "@logger/(.*)": "<rootDir>/src/logger/$1",
       "^(\\.{1,2}/.*)\\.js$": "$1"
-    },
-    "globals": {
-      "ts-jest": {
-        "useESM": true
-      }
     }
   }
 }

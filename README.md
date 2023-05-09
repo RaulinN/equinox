@@ -20,5 +20,5 @@ npm run start
 
 ## Unusual node modules
 
-- [`tsc-alias`](https://www.npmjs.com/package/tsc-alias) replaces alias paths with relative paths after typescript compilation (using `tsc`)
+- [`tsc-alias`](https://www.npmjs.com/package/tsc-alias) replaces alias paths with relative paths after typescript compilation (see [this post](https://stackoverflow.com/questions/59179787/tsc-doesnt-compile-alias-paths))
 - [`jest-ts-webcompat-resolver`](https://www.npmjs.com/package/jest-ts-webcompat-resolver) is a jest resolver that allows [ts-jest](https://kulshekhar.github.io/ts-jest/docs/getting-started/installation/) to understand relative ESM imports using `.js` or `.ts` (instead of no extension). See this [GitHub issue](https://github.com/kulshekhar/ts-jest/issues/1057)
