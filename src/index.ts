@@ -1,5 +1,4 @@
-import { PlayerInfoRio } from 'model/network/PlayerInfoRio.js';
-import { NetworkController } from 'model/network/NetworkController.js';
+import { NetworkController, PlayerInfoRio } from '@model/network/index.js';
 
 const nc: NetworkController = new NetworkController();
 const info: Promise<PlayerInfoRio> = nc.getPlayerInfo('Myrxia2');

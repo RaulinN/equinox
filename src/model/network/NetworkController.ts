@@ -1,5 +1,5 @@
-import { ClientRio } from 'model/network/client/ClientRio.js';
-import { PlayerInfoRio } from 'model/network/PlayerInfoRio.js';
+import { ClientRio } from './client/ClientRio.js';
+import { PlayerInfoRio } from './PlayerInfoRio.js';
 
 export class NetworkController {
     readonly #clientRio: ClientRio;
