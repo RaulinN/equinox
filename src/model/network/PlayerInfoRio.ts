@@ -1,3 +1,4 @@
+/** Interface that represents data from a successful RaiderIO player information fetch */
 export interface PlayerInfoRio {
     name: string,
     race: string,

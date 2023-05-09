@@ -1,0 +1,9 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["./src"],
+  "entryPointStrategy": "expand",
+  "out": "./docs",
+  "readme": "./README.md",
+  "name": "Eclipse",
+  "exclude": ["./src/index.ts"]
+}
