@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc && tsc-alias",
-    "start": "tsc && tsc-alias && node ./dist/index.js",
+    "start": "npm run clean && npm run build && node --experimental-json-modules ./dist/src/index.js",
     "dev": "nodemon -e ts --exec \"npm run build\"",
     "clean": "rm -rf ./dist/",
     "docs": "typedoc --options typedoc.json",
@@ -66,7 +66,6 @@
     "moduleNameMapper": {
       "@src/(.*)": "<rootDir>/src/$1",
       "@model/(.*)": "<rootDir>/src/model/$1",
-      "@logger/(.*)": "<rootDir>/src/logger/$1",
       "^(\\.{1,2}/.*)\\.js$": "$1"
     }
   }

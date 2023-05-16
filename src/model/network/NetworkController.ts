@@ -1,6 +1,6 @@
 import { ClientRio } from './client/ClientRio.js';
 import { PlayerInfoRio } from './PlayerInfoRio.js';
-import { logger } from '@logger/Logger.js';
+import { logger } from '../../logger/Logger.js';
 
 /** NetworkController is the entity that handles any in/out-going network requests */
 export class NetworkController {

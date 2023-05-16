@@ -2,8 +2,9 @@ import 'dotenv/config';
 
 import { NetworkController, PlayerInfoRio } from '@model/network/index.js';
 import { Client, IntentsBitField } from 'discord.js';
-import { logger } from '@logger/Logger.js';
 import { ActivityType } from 'discord-api-types/v9';
+import { eventHandler } from './discord/handlers/eventHandler.js';
+import { logger } from './logger/Logger.js';
 
 /*
 const nc: NetworkController = new NetworkController();
@@ -20,20 +21,6 @@ const bot: Client = new Client({
     ],
 });
 
-// https://stackoverflow.com/questions/74309898/how-to-add-an-activitytype-or-an-activity-to-your-bot-in-javascript-discordjs-ve
-bot.on('ready', (b) => {
-    logger.info(`✅ ${b.user.tag} is online!`);
-    b.user.setActivity("ce bg de Myrxia", { type: 2 });
-});
-
-bot.on('messageCreate', (msg) => {
-    logger.debug(`logging message '${msg.content}' in ${msg.channel} from ${msg.author}`);
-
-    if (msg.author.bot) return;
-
-    if (msg.content === 'hello') {
-        msg.reply('hi!');
-    }
-});
+eventHandler(bot);
 
 bot.login(process.env.DISCORD_BOT_TOKEN);
