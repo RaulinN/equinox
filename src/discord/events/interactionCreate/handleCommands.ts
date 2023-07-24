@@ -40,6 +40,7 @@ export default async function handleCommands(bot: Client, interaction: any): Pro
 
         // command that can only be run by a dev (see config.json)
         if (commandObject.devOnly) {
+            // FIXME if sending slash command in dms, (interaction.member as GuildMember) will be null
             if (!config.devs.includes((interaction.member as GuildMember).id)) {
                 interaction.reply({
                    content: 'only developers are allowed to run this command',
@@ -51,6 +52,7 @@ export default async function handleCommands(bot: Client, interaction: any): Pro
 
         // command that can only be run on the testServer (see config.json)
         if (commandObject.testOnly) {
+            // FIXME if sending slash command in dms, (interaction.member as GuildMember) will be null
             if (!((interaction.member as GuildMember).guild.id === config.testServer)) {
                 interaction.reply({
                     content: 'this command cannot be ran here',
@@ -90,6 +92,6 @@ export default async function handleCommands(bot: Client, interaction: any): Pro
         await commandObject.callback(bot, interaction);
 
     } catch (e) {
-        logger.error(`error running the command: ${e}`);
+        logger.error(`error running the command '${interaction}': ${e}`);
     }
 }
