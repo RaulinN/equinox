@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, Client, EmbedBuilder } from 'discord.js';
+import { ChatInputCommandInteraction, Client } from 'discord.js';
 import { ICommand } from '../ICommand.js';
 import { Embed } from '../../embeds/Embed.js';
 import project from '../../../../package.json' assert { type: 'json' };

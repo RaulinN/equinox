@@ -7,9 +7,6 @@ import { ICommand } from '../ICommand.js';
 export const ping: ICommand = {
     name: 'ping',
     description: 'Pong?',
-    devOnly: true,
-    // testOnly: true,
-    // options: Object[]
     callback: async (bot: Client, interaction: ChatInputCommandInteraction) => {
         await interaction.deferReply();
 

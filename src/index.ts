@@ -19,6 +19,10 @@ const bot: Client = new Client({
         IntentsBitField.Flags.GuildMessages,
         IntentsBitField.Flags.MessageContent,
     ],
+    allowedMentions: {
+        parse: ['users', 'roles'],
+        repliedUser: true,
+    }
 });
 
 eventHandler(bot);
