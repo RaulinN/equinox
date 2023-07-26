@@ -1,12 +1,8 @@
 import { ICommand } from '../ICommand.js';
 import { ApplicationCommandOptionType, ChatInputCommandInteraction, Client, EmbedBuilder, EmbedData } from 'discord.js';
-
-const I_RAID: string = '<:raid:1133092256979624048>';
-const I_CROWN: string = ':crown:';
-const I_GOLD: string = '<:gold:1133089695178444811>';
-const I_ADV: string = '<:advertiser:1133188937800757349>';
-const I_SWORD: string = ':crossed_swords:';
-const I_TANK: string = '<:tank:1133092404598149141>';
+import { I_ADV, I_CROWN, I_GOLD, I_RAID, I_SWORD, I_TANK } from '../../utils/index.js';
+import { replyError } from '../../embeds/responses.js';
+import { logger } from '../../../logger/Logger.js';
 
 const P_CUT_BOOSTERS: number = 0.625;
 const P_CUT_ADVERTISERS: number = 0.275;
@@ -57,13 +53,15 @@ export const pcr: ICommand = {
         // total pot
         let pot = interaction.options.get('total-pot')!.value;
         if (typeof pot !== 'number') {
-            interaction.editReply("argument 'total-pot' is not a number");
+            await interaction.reply(replyError("argument \`total-pot\` is not a number"))
+                .catch(e => logger.error(`failed to reply: ${e}`));
             return;
         }
         // number of clients
         const numberClients = interaction.options.get('number-clients')!.value;
         if (typeof numberClients !== 'number') {
-            interaction.editReply("argument 'number-clients' is not a number");
+            await interaction.reply(replyError("argument \`number-clients\` is not a number"))
+                .catch(e => logger.error(`failed to reply: ${e}`));
             return;
         }
 
@@ -78,23 +76,27 @@ export const pcr: ICommand = {
 
 
         if (numberBoosters !== undefined && boosters !== undefined) {
-            interaction.editReply("arguments 'number-boosters' and 'boosters' are mutually exclusive");
+            await interaction.reply(replyError("arguments \`number-boosters\` and \`boosters\` are mutually exclusive"))
+                .catch(e => logger.error(`failed to reply: ${e}`));
             return;
         }
 
         if (numberBoosters !== undefined && typeof numberBoosters !== 'number') {
-            interaction.editReply("argument 'number-boosters' is not a number");
+            await interaction.reply(replyError("argument \`number-boosters\` is not a number"))
+                .catch(e => logger.error(`failed to reply: ${e}`));
             return;
         }
 
         if (numberBoosters === undefined) {
             if (boosters === undefined) {
-                interaction.editReply("arguments 'number-boosters' and 'boosters' cannot both be _undefined_");
+                await interaction.reply(replyError("arguments \`number-boosters\` and \`boosters\` cannot both be \`undefined\`"))
+                    .catch(e => logger.error(`failed to reply: ${e}`));
                 return;
             }
 
             if (typeof boosters !== 'string') {
-                interaction.editReply("argument 'boosters' is not a string (should be a string of space separated user ids)");
+                await interaction.reply(replyError("argument \`boosters\` is not a string (should be a string of space separated user ids)"))
+                    .catch(e => logger.error(`failed to reply: ${e}`));
                 return;
             }
 
@@ -106,7 +108,8 @@ export const pcr: ICommand = {
 
             numberBoosters = boosterIds.length;
             if (!numberBoosters) {
-                interaction.editReply("argument 'boosters' should be a space separated list of user ids");
+                await interaction.reply(replyError("argument \`boosters\` should be a space separated list of user ids"))
+                    .catch(e => logger.error(`failed to reply: ${e}`));
                 return;
             }
         }
@@ -163,6 +166,7 @@ ${I_GOLD} **${nf.format(cutByBooster)}**.\n\nLes cuts sont calculées automatiqu
 que tu peux trouver sur leur serveur discord \
 https://discord.com/channels/658505246410014731/999792306209165412/1128748146747519116.\n\nVoici le détail du boost:`;
 
-        await interaction.reply({ content: message, embeds: [embed] });
+        await interaction.reply({ content: message, embeds: [embed] })
+            .catch(e => logger.error(`failed to reply: ${e}`));
     }
 }

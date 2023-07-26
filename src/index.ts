@@ -5,6 +5,7 @@ import { Client, IntentsBitField } from 'discord.js';
 import { ActivityType } from 'discord-api-types/v9';
 import { eventHandler } from './discord/handlers/eventHandler.js';
 import { logger } from './logger/Logger.js';
+import mongoose from 'mongoose';
 
 /*
 const nc: NetworkController = new NetworkController();
@@ -25,6 +26,20 @@ const bot: Client = new Client({
     }
 });
 
-eventHandler(bot);
+(async () => {
+    try {
+        const mongoUri: string | undefined = process.env.MONGODB_URI
+        if (!mongoUri) {
+            logger.error('did not find environment variable \'MONGODB_URI\'');
+            return;
+        }
+        await mongoose.connect(mongoUri);
+        logger.info('connected to mongo db');
 
-bot.login(process.env.DISCORD_BOT_TOKEN);
+        eventHandler(bot);
+
+        bot.login(process.env.DISCORD_BOT_TOKEN);
+    } catch (error) {
+        logger.error(`error: ${error}`);
+    }
+})();

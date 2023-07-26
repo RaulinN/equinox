@@ -1,5 +1,7 @@
 import { ChatInputCommandInteraction, Client } from 'discord.js';
 import { ICommand } from '../ICommand.js';
+import { replyOk } from '../../embeds/responses.js';
+import { logger } from '../../../logger/Logger.js';
 
 /**
  * Local custom ping command
@@ -13,6 +15,7 @@ export const ping: ICommand = {
         const reply = await interaction.fetchReply();
         const ping = reply.createdTimestamp - interaction.createdTimestamp;
 
-        interaction.editReply(`Pong! Client ${ping}ms | Websocket ${bot.ws.ping}ms`);
+        await interaction.editReply(replyOk(`Pong! Client ${ping}ms | Websocket ${bot.ws.ping}ms`))
+            .catch(e => logger.error(`failed to reply: ${e}`));
     }
 }

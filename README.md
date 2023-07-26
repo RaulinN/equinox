@@ -11,10 +11,11 @@ cd ./equinox
 npm install
 ```
 
-Then, a [discord bot token]() should be generated and stored inside the `.env` file (`touch .env`). Its content should be formatted as follows
+Then, a [discord bot token]() should be generated and stored inside the `.env` file (`touch .env`). You should also add the URI to a [mongodb database](https://cloud.mongodb.com). Its content should be formatted as follows
 
 ```
 DISCORD_BOT_TOKEN=<your_bot_token>
+MONGODB_URI=<your_mongodb_uri>
 ```
 
 Finally, run the application using
