@@ -6,6 +6,7 @@ import { logger } from '../../logger/Logger.js';
 export class NetworkController {
     /** RaiderIO client @readonly */
     readonly #clientRio: ClientRio;
+
     // readonly clientWlogs: ClientWlogs;
 
     constructor() {

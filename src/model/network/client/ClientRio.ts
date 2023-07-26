@@ -4,7 +4,7 @@ import { sendGetRequest } from '../NetworkManager.js';
 
 /** A ClientRio handles communication with raider.io */
 export class ClientRio implements IClient {
-    API_BASE_URL: string = "https://raider.io/api/v1";
+    API_BASE_URL: string = 'https://raider.io/api/v1';
 
     /**
      * Fetch raider.io player information
@@ -19,7 +19,7 @@ export class ClientRio implements IClient {
             region, realm, name,
             fields: 'gear,guild,raid_progression,mythic_plus_scores_by_season:season-df-1:current',
         })
-        .then((r: any) => r.data as PlayerInfoRio)
-        .catch((r: any) => Promise.reject(r.response.data));
+            .then((r: any) => r.data as PlayerInfoRio)
+            .catch((r: any) => Promise.reject(r.response.data));
     }
 }

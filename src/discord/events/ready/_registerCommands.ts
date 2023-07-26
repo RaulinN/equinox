@@ -19,7 +19,7 @@ export default async function registerCommands(bot: Client): Promise<void> {
         const applicationCommands = await getApplicationCommands(bot);
 
         for (const localCommand of localCommands) {
-            const { name, description, options } = localCommand;
+            const {name, description, options} = localCommand;
 
             const existingCommand = await applicationCommands.cache.find((cmd: ICommand) => cmd.name === name);
 

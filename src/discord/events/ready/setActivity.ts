@@ -9,5 +9,5 @@ import { Client } from 'discord.js';
  * @note registered via `eventHandler.ts`
  */
 export default function setActivity(bot: Client): void {
-    bot.user!.setActivity("ce bg de Myrxia", { type: 2 });
+    bot.user!.setActivity('ce bg de Myrxia', {type: 2});
 }

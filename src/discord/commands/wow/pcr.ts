@@ -53,14 +53,14 @@ export const pcr: ICommand = {
         // total pot
         let pot = interaction.options.get('total-pot')!.value;
         if (typeof pot !== 'number') {
-            await interaction.reply(replyError("argument \`total-pot\` is not a number"))
+            await interaction.reply(replyError('argument \`total-pot\` is not a number'))
                 .catch(e => logger.error(`failed to reply: ${e}`));
             return;
         }
         // number of clients
         const numberClients = interaction.options.get('number-clients')!.value;
         if (typeof numberClients !== 'number') {
-            await interaction.reply(replyError("argument \`number-clients\` is not a number"))
+            await interaction.reply(replyError('argument \`number-clients\` is not a number'))
                 .catch(e => logger.error(`failed to reply: ${e}`));
             return;
         }
@@ -76,26 +76,26 @@ export const pcr: ICommand = {
 
 
         if (numberBoosters !== undefined && boosters !== undefined) {
-            await interaction.reply(replyError("arguments \`number-boosters\` and \`boosters\` are mutually exclusive"))
+            await interaction.reply(replyError('arguments \`number-boosters\` and \`boosters\` are mutually exclusive'))
                 .catch(e => logger.error(`failed to reply: ${e}`));
             return;
         }
 
         if (numberBoosters !== undefined && typeof numberBoosters !== 'number') {
-            await interaction.reply(replyError("argument \`number-boosters\` is not a number"))
+            await interaction.reply(replyError('argument \`number-boosters\` is not a number'))
                 .catch(e => logger.error(`failed to reply: ${e}`));
             return;
         }
 
         if (numberBoosters === undefined) {
             if (boosters === undefined) {
-                await interaction.reply(replyError("arguments \`number-boosters\` and \`boosters\` cannot both be \`undefined\`"))
+                await interaction.reply(replyError('arguments \`number-boosters\` and \`boosters\` cannot both be \`undefined\`'))
                     .catch(e => logger.error(`failed to reply: ${e}`));
                 return;
             }
 
             if (typeof boosters !== 'string') {
-                await interaction.reply(replyError("argument \`boosters\` is not a string (should be a string of space separated user ids)"))
+                await interaction.reply(replyError('argument \`boosters\` is not a string (should be a string of space separated user ids)'))
                     .catch(e => logger.error(`failed to reply: ${e}`));
                 return;
             }
@@ -103,12 +103,12 @@ export const pcr: ICommand = {
             // split ids, remove empty ids, and filter out ids that are not numbers
             boosterIds = boosters
                 .split(' ')
-                .filter(e => e !== "")
+                .filter(e => e !== '')
                 .filter(e => +e >= 0);
 
             numberBoosters = boosterIds.length;
             if (!numberBoosters) {
-                await interaction.reply(replyError("argument \`boosters\` should be a space separated list of user ids"))
+                await interaction.reply(replyError('argument \`boosters\` should be a space separated list of user ids'))
                     .catch(e => logger.error(`failed to reply: ${e}`));
                 return;
             }
@@ -140,21 +140,21 @@ export const pcr: ICommand = {
             title: `${I_RAID} | Ashes HC | ${I_RAID}`,
             description: 'Type: Heroic',
             fields: [
-                { name: 'Pot:', value: `${I_GOLD} **${nf.format(pot)}**`, inline: true },
-                { name: '\u200b', value: '\u200b', inline: true }, // blank cell
-                { name: '\u200b', value: '\u200b', inline: true }, // blank cell
-                { name: 'Booster:', value: `${I_GOLD} ${nf.format(cutBoosters)}`, inline: true },
-                { name: 'Advertisers:', value: `${I_GOLD} ${nf.format(cutAdvertisers)}`, inline: true },
-                { name: 'Gold Collector:', value: `${I_GOLD} ${nf.format(cutCollector)}`, inline: true },
-                { name: 'Raidleaders:', value: `${I_CROWN} ${user}`, inline: true },
-                { name: 'Cut:', value: `${I_GOLD} ${nf.format(cutRaidLeader)}`, inline: true },
-                { name: '\u200b', value: '\u200b', inline: true }, // blank cell
-                { name: 'Boosters:', value: boostersNameEmbed, inline: true },
-                { name: 'Cut:', value: boostersCutEmbed, inline: true },
-                { name: `${I_SWORD} ${numberBoosters} Boosters`, value: boostersRoleEmbed, inline: true },
-                { name: 'Advertisers:', value: `${I_ADV} _(multiple advertisers)_`, inline: true },
-                { name: 'Cut:', value: `${I_GOLD} ${nf.format(cutAdvertisers)}`, inline: true },
-                { name: 'Clients:', value: `${numberClients} Clients`, inline: true },
+                {name: 'Pot:', value: `${I_GOLD} **${nf.format(pot)}**`, inline: true},
+                {name: '\u200b', value: '\u200b', inline: true}, // blank cell
+                {name: '\u200b', value: '\u200b', inline: true}, // blank cell
+                {name: 'Booster:', value: `${I_GOLD} ${nf.format(cutBoosters)}`, inline: true},
+                {name: 'Advertisers:', value: `${I_GOLD} ${nf.format(cutAdvertisers)}`, inline: true},
+                {name: 'Gold Collector:', value: `${I_GOLD} ${nf.format(cutCollector)}`, inline: true},
+                {name: 'Raidleaders:', value: `${I_CROWN} ${user}`, inline: true},
+                {name: 'Cut:', value: `${I_GOLD} ${nf.format(cutRaidLeader)}`, inline: true},
+                {name: '\u200b', value: '\u200b', inline: true}, // blank cell
+                {name: 'Boosters:', value: boostersNameEmbed, inline: true},
+                {name: 'Cut:', value: boostersCutEmbed, inline: true},
+                {name: `${I_SWORD} ${numberBoosters} Boosters`, value: boostersRoleEmbed, inline: true},
+                {name: 'Advertisers:', value: `${I_ADV} _(multiple advertisers)_`, inline: true},
+                {name: 'Cut:', value: `${I_GOLD} ${nf.format(cutAdvertisers)}`, inline: true},
+                {name: 'Clients:', value: `${numberClients} Clients`, inline: true},
             ],
         };
 
@@ -166,7 +166,7 @@ ${I_GOLD} **${nf.format(cutByBooster)}**.\n\nLes cuts sont calculées automatiqu
 que tu peux trouver sur leur serveur discord \
 https://discord.com/channels/658505246410014731/999792306209165412/1128748146747519116.\n\nVoici le détail du boost:`;
 
-        await interaction.reply({ content: message, embeds: [embed] })
+        await interaction.reply({content: message, embeds: [embed]})
             .catch(e => logger.error(`failed to reply: ${e}`));
     }
 }

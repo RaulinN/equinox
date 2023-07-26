@@ -10,7 +10,7 @@ export class Embed {
             author: {
                 name: bot.user!.username,
                 url: project.repository.url,
-                iconURL: bot.user!.displayAvatarURL({ size: 256 })
+                iconURL: bot.user!.displayAvatarURL({size: 256})
             },
             timestamp: new Date().toISOString(),
             ...data,

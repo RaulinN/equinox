@@ -32,19 +32,19 @@ export const bank: ICommand = {
     callback: async (bot: Client, interaction: ChatInputCommandInteraction) => {
         if (!interaction.inGuild() || interaction.user.bot) return;
 
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ephemeral: true});
 
         // character name
         let name = interaction.options.get('name')!.value;
         if (typeof name !== 'string') {
-            await interaction.editReply(replyError("argument \`name\` is not a string"))
+            await interaction.editReply(replyError('argument \`name\` is not a string'))
                 .catch(e => logger.error(`failed to reply: ${e}`));
             return;
         }
         // character realm
         let realm = interaction.options.get('realm')!.value;
         if (typeof realm !== 'string') {
-            await interaction.editReply(replyError("argument \`realm\` is not a string"))
+            await interaction.editReply(replyError('argument \`realm\` is not a string'))
                 .catch(e => logger.error(`failed to reply: ${e}`));
             return;
         }
@@ -82,7 +82,7 @@ orthographié, ou alors non connecté à \`Dalaran\`. Voici la liste des royaume
 
             // if !instance
             else {
-                const newBank = new Bank({ ...query, name, realm });
+                const newBank = new Bank({...query, name, realm});
                 await newBank.save().catch(async (e) => {
                     await interaction.editReply(replyError(`error saving new bank ${e}`))
                         .catch(e => logger.error(`failed to reply: ${e}`));
@@ -97,25 +97,6 @@ orthographié, ou alors non connecté à \`Dalaran\`. Voici la liste des royaume
                 .catch(e => logger.error(`failed to reply: ${e}`));
             return;
         }
-
-
-
-
-
-/*
-        const bank = new Bank({
-            userId: interaction.user.id,
-            guildId: interaction.guildId,
-            name: name,
-            realm: realm,
-        });
-        await bank.save().catch(async (e) => {
-            await interaction.editReply(replyError(`error saving updated bank ${e}`))
-                .catch(e => logger.error(`failed to reply: ${e}`));
-            return;
-        });*/
-
-
 
 
         const response: string = `Ton personnage sur lequel j'enverrai tes ${I_GOLD} golds est maintenant : \

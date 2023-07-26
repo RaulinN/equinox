@@ -13,7 +13,7 @@ export function replyWarn(reason: string): any {
         description: reason + contactDeveloper,
     };
     const embed = new EmbedBuilder(data);
-    return { embeds: [embed]};
+    return {embeds: [embed]};
 }
 
 /**
@@ -27,7 +27,7 @@ export function replyError(reason: string): any {
         description: reason + contactDeveloper,
     };
     const embed = new EmbedBuilder(data);
-    return { embeds: [embed]};
+    return {embeds: [embed]};
 }
 
 /**
@@ -40,5 +40,5 @@ export function replyOk(information: string): any {
         description: information,
     };
     const embed = new EmbedBuilder(data);
-    return { embeds: [embed]};
+    return {embeds: [embed]};
 }

@@ -18,7 +18,7 @@ export function getAllFiles(directory: any, foldersOnly: boolean = false): strin
     }
 
     // read all files/directories inside the dir directory
-    const files = fs.readdirSync(directory, { withFileTypes: true });
+    const files = fs.readdirSync(directory, {withFileTypes: true});
     for (const file of files) {
         const filePath: string = path.join(directory, file.name);
 
@@ -27,7 +27,7 @@ export function getAllFiles(directory: any, foldersOnly: boolean = false): strin
                 fileNames.push(filePath);
             }
         } else {
-            if (file.isFile() && !file.name.endsWith(".map")) {
+            if (file.isFile() && !file.name.endsWith('.map')) {
                 fileNames.push(filePath);
             }
         }

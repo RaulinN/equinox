@@ -15,14 +15,14 @@ export const equinox: ICommand = {
             description: project.description,
             fields: [
                 //{ name: '\u200b', value: '\u200b' },
-                { name: 'Name', value: project.name, inline: true },
-                { name: 'Version', value: project.version, inline: true },
-                { name: 'License', value: project.license, inline: true },
-                { name: 'Author', value: project.author },
-                { name: 'Repository', value: project.repository.url },
+                {name: 'Name', value: project.name, inline: true},
+                {name: 'Version', value: project.version, inline: true},
+                {name: 'License', value: project.license, inline: true},
+                {name: 'Author', value: project.author},
+                {name: 'Repository', value: project.repository.url},
             ],
         });
 
-        await interaction.reply({ embeds: [embed.build()] }).catch(e => logger.error(`failed to reply: ${e}`));;
+        await interaction.reply({embeds: [embed.build()]}).catch(e => logger.error(`failed to reply: ${e}`));
     }
 }

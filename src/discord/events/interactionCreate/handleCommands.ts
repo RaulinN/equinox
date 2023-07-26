@@ -1,11 +1,4 @@
-import {
-    ChatInputCommandInteraction,
-    Client,
-    CommandInteraction,
-    GuildMember,
-    Interaction,
-    MessageInteraction
-} from 'discord.js';
+import { Client, GuildMember } from 'discord.js';
 import { getLocalCommands } from '../../utils/index.js';
 import { ICommand } from '../../commands/ICommand.js';
 import config from '../../../../config.json' assert { type: 'json' };
@@ -25,7 +18,7 @@ export default async function handleCommands(bot: Client, interaction: any): Pro
     if (!interaction.isChatInputCommand()) return;
 
     logger.info(
-        `processing chat input command '${interaction}' by ${interaction.user?.name} in ${interaction.member?.guild?.name}
+        `processing chat input command '${interaction}' by userId ${interaction.user.id} in guild ${interaction.member?.guild?.name}
     `);
 
     const localCommands: ICommand[] = await getLocalCommands();
@@ -43,8 +36,8 @@ export default async function handleCommands(bot: Client, interaction: any): Pro
             // FIXME if sending slash command in dms, (interaction.member as GuildMember) will be null
             if (!config.devs.includes((interaction.member as GuildMember).id)) {
                 interaction.reply({
-                   content: 'only developers are allowed to run this command',
-                   ephemeral: true,
+                    content: 'only developers are allowed to run this command',
+                    ephemeral: true,
                 });
                 return;
             }

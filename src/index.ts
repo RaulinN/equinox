@@ -1,8 +1,5 @@
 import 'dotenv/config';
-
-import { NetworkController, PlayerInfoRio } from '@model/network/index.js';
 import { Client, IntentsBitField } from 'discord.js';
-import { ActivityType } from 'discord-api-types/v9';
 import { eventHandler } from './discord/handlers/eventHandler.js';
 import { logger } from './logger/Logger.js';
 import mongoose from 'mongoose';
