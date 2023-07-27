@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "build": "tsc && tsc-alias",
-    "start": "npm run clean && npm run build && node --experimental-json-modules ./dist/src/index.js",
+    "start": "npm run clean && npm run build && NODE_ENV=production node --experimental-json-modules --require dotenv/config ./dist/src/index.js dotenv_config_path=./.env",
+    "start:dev": "npm run clean && npm run build   && NODE_ENV=test node --experimental-json-modules --require dotenv/config ./dist/src/index.js dotenv_config_path=./.env.test",
     "dev": "nodemon -e ts --exec \"npm run build\"",
     "clean": "rm -rf ./dist/",
     "docs": "typedoc --options typedoc.json",

@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import { Client, IntentsBitField } from 'discord.js';
 import { eventHandler } from './discord/handlers/eventHandler.js';
 import { logger } from './logger/Logger.js';
@@ -25,7 +24,8 @@ const bot: Client = new Client({
 
 (async () => {
     try {
-        const mongoUri: string | undefined = process.env.MONGODB_URI
+        logger.info(`starting program with NODE_ENV=${process.env.NODE_ENV}`);
+        const mongoUri: string | undefined = process.env.MONGODB_URI;
         if (!mongoUri) {
             logger.error('did not find environment variable \'MONGODB_URI\'');
             return;
