@@ -97,6 +97,7 @@ export const payout: ICommand = {
 
         const payoutId: string = reply.id;
 
+        // create buttons
         let rows: any[] = [];
         let n: number = 1;
         let row: any = new ActionRowBuilder();
@@ -119,51 +120,10 @@ export const payout: ICommand = {
             rows.push(row);
         }
 
-        reply = await interaction.editReply({
+        await interaction.editReply({
             content: '# Etat des transferts',
             embeds: [embedPayouts],
             components: rows,
-        });
-
-
-        // collect button clicks & listen for them
-        const filter = (i: ButtonInteraction) => i.user.id === UID_WEXUS;
-        const collector: InteractionCollector<any> = reply.createMessageComponentCollector({
-            componentType: ComponentType.Button,
-            filter,
-        });
-
-
-        collector.on('collect', async (interactionButton: any) => {
-            const [cmd, bid, pid, styl, n] = interactionButton.customId.split('.');
-            if (!cmd || !bid || !pid || !n || cmd !== 'payout') {
-                await interactionButton.reply(`unknown custom id '${interactionButton.customId}' while pressing a payout button`);
-                return;
-            }
-
-
-            // switch embed emoji
-            const payoutMessage: Message = await interactionButton.channel.messages.fetch(pid);
-            const payoutEmbed: Embed = payoutMessage.embeds[0];
-
-            const idx: number = (+n) - 1;
-            const newV = payoutEmbed.fields[0].value.split('\n')
-            if (newV[idx].startsWith(':no_entry_sign:')) {
-                newV[idx] = newV[idx].replace(':no_entry_sign:', ':white_check_mark:');
-            } else {
-                newV[idx] = newV[idx].replace(':white_check_mark:', ':no_entry_sign:');
-            }
-            payoutEmbed.fields[0].value = newV.join('\n');
-
-
-            await interaction.editReply({
-                content: '# Etat des transferts',
-                embeds: [payoutEmbed],
-                components: payoutMessage.components,
-            });
-
-            interactionButton.deferUpdate();
-            return;
         });
     }
 }
