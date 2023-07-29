@@ -1,5 +1,13 @@
-import { ApplicationCommandOptionType, ChatInputCommandInteraction, Client, EmbedBuilder, EmbedData } from 'discord.js';
-import { I_GOLD, I_SWORD } from '../../utils/index.js';
+import {
+    ActionRowBuilder,
+    ApplicationCommandOptionType,
+    ButtonBuilder, ButtonInteraction,
+    ButtonStyle,
+    ChatInputCommandInteraction,
+    Client, ComponentType,
+    EmbedBuilder, InteractionCollector
+} from 'discord.js';
+import { I_GOLD, I_SWORD, UID_WEXUS } from '../../utils/index.js';
 import { replyError, replyOk, replyWarn } from '../../embeds/responses.js';
 import { logger } from '../../../logger/Logger.js';
 import { Bank } from '../../../schemas/Bank.js';
@@ -14,6 +22,27 @@ const SUB_LIST_ARG_IDS: string = 'booster-ids';
 
 // realms connected to Dalaran
 const CONNECTED_REALMS: string[] = ['Dalaran', 'MarécagedeZangar', 'Cho\'gall', 'Eldre\'Thalas', 'Sinstralis'];
+
+async function saveBankCharacter(query: any, name: string, realm: string) {
+    let instance: any = await Bank.findOne(query);
+
+    if (instance) {
+        instance.name = name;
+        instance.realm = realm;
+
+        await instance.save();
+
+        logger.debug(`modified an entry to ${instance} in Bank db`);
+    }
+
+    // if !instance
+    else {
+        const newBank = new Bank({...query, name, realm});
+        await newBank.save();
+
+        logger.debug(`added entry ${newBank} in Bank db`);
+    }
+}
 
 async function handleBankSet(bot: Client, interaction: ChatInputCommandInteraction): Promise<void> {
     await interaction.deferReply({ephemeral: true});
@@ -34,8 +63,51 @@ async function handleBankSet(bot: Client, interaction: ChatInputCommandInteracti
     // check that the realm is connected to Dalaran
     if (!CONNECTED_REALMS.includes(realm)) {
         const reason: string = `Je ne peux pas envoyer de ${I_GOLD} sur le royaume \`${realm}\` car il est mal \
-orthographié, ou alors non connecté à \`Dalaran\`. Voici la liste des royaumes possibles:\n\n\`[${CONNECTED_REALMS}]\``;
-        await interaction.editReply(replyError(reason));
+orthographié, ou alors non connecté à \`Dalaran\`. Voici la liste des royaumes possibles:\n\n\`[${CONNECTED_REALMS}] \
+\`\n\n:information_source: Depuis fin juillet, le trade d'item & ${I_GOLD} cross-server est disponible. Je ne peux pas mail les \
+${I_GOLD}, mais je peux te les trade lorsque l'on se croise en raid. La restriction personnage alliance reste tout de \
+même présente!\n\nSi c'est ce que tu veux, contrôle que ton server soit bien correct car je n'ai pas de checks \
+automatisés pour ces royaumes!`;
+
+        // buttons
+        const buttonApprove: any = new ButtonBuilder()
+            .setLabel('Valider')
+            .setEmoji('✅')
+            .setStyle(ButtonStyle.Success)
+            .setCustomId('bank.xrealm.approve');
+        const buttonLink: any = new ButtonBuilder()
+            .setLabel('Link news')
+            .setStyle(ButtonStyle.Link)
+            .setURL('https://www.wowhead.com/news/cross-realm-trading-coming-with-patch-10-1-5-free-trading-to-any-realm-within-a-333635');
+
+
+        const buttons: any = new ActionRowBuilder().addComponents(buttonApprove, buttonLink);
+
+        const reply: any = await interaction.editReply({...replyWarn(reason), components: [buttons]});
+
+        // collect button clicks & listen for them
+        const collector: InteractionCollector<any> = reply.createMessageComponentCollector({
+            componentType: ComponentType.Button,
+        });
+
+        collector.on('collect', async (interactionButton: ButtonInteraction) => {
+            if (interactionButton.customId === 'bank.xrealm.approve') {
+                try {
+                    await saveBankCharacter({
+                        userId: interaction.user.id,
+                        guildId: interaction.guildId,
+                    }, name as string, realm as string);
+                } catch (error) {
+                    await interactionButton.reply(replyError(`error saving/updating bank ${error}`));
+                }
+
+                await interaction.editReply({components: []});
+                await interactionButton.reply({...replyOk(`All good! Ton personnage-banque est maintenant \`${name}-${realm}\``), ephemeral: true})
+                return;
+            }
+        });
+
+        await interaction.editReply(replyWarn(reason));
         return;
     }
 
@@ -47,25 +119,7 @@ orthographié, ou alors non connecté à \`Dalaran\`. Voici la liste des royaume
     };
 
     try {
-        let instance: any = await Bank.findOne(query);
-
-        if (instance) {
-            instance.name = name;
-            instance.realm = realm;
-
-            await instance.save();
-
-            logger.debug(`modified an entry to ${instance} in Bank db`);
-        }
-
-        // if !instance
-        else {
-            const newBank = new Bank({...query, name, realm});
-            await newBank.save();
-
-            logger.debug(`added entry ${newBank} in Bank db`);
-        }
-
+        await saveBankCharacter(query, name, realm);
     } catch (error) {
         await interaction.editReply(replyError(`error saving/updating bank ${error}`));
         return;
