@@ -48,3 +48,6 @@ dist
 
 # MAC
 .DS_Store
+
+# deployment and backups
+deployment

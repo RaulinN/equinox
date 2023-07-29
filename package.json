@@ -11,7 +11,8 @@
     "dev": "nodemon -e ts --exec \"npm run build\"",
     "clean": "rm -rf ./dist/",
     "docs": "typedoc --options typedoc.json",
-    "test": "jest --verbose --coverage --collectCoverageFrom=\"./src/**\""
+    "test": "jest --verbose --coverage --collectCoverageFrom=\"./src/**\"",
+    "deploy": "npm run clean && npm run build && python3 ./deploy.py"
   },
   "repository": {
     "type": "git",
