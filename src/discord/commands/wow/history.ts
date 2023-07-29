@@ -11,7 +11,6 @@ export const history: ICommand = {
     description: 'Affiche l\'historique de tes boosts',
     callback: async (bot: Client, interaction: ChatInputCommandInteraction) => {
         await interaction.deferReply({ephemeral: true});
-        await interaction.editReply(replyWarn(':tools: Work in progress! :tools:'))
-            .catch(e => logger.error(`failed to reply: ${e}`));
+        await interaction.editReply(replyWarn(':tools: Work in progress! :tools:'));
     }
 }

@@ -23,6 +23,6 @@ export const equinox: ICommand = {
             ],
         });
 
-        await interaction.reply({embeds: [embed.build()]}).catch(e => logger.error(`failed to reply: ${e}`));
+        await interaction.reply({ephemeral: true, embeds: [embed.build()]});
     }
 }

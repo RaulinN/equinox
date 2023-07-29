@@ -11,6 +11,7 @@ export function replyWarn(reason: string): any {
     const data: EmbedData = {
         title: `:warning: Un avertissement est survenu :warning:`,
         description: reason + contactDeveloper,
+        color: 0xf0ad4e,
     };
     const embed = new EmbedBuilder(data);
     return {embeds: [embed]};
@@ -25,6 +26,7 @@ export function replyError(reason: string): any {
     const data: EmbedData = {
         title: `:no_entry_sign: Une erreur est survenue :no_entry_sign:`,
         description: reason + contactDeveloper,
+        color: 0xbb2124,
     };
     const embed = new EmbedBuilder(data);
     return {embeds: [embed]};
@@ -38,6 +40,21 @@ export function replyError(reason: string): any {
 export function replyOk(information: string): any {
     const data: EmbedData = {
         description: information,
+        color: 0x5bc0de,
+    };
+    const embed = new EmbedBuilder(data);
+    return {embeds: [embed]};
+}
+
+/**
+ * Generate a success response (embed) for the bot
+ *
+ * @param information - information of what was successful
+ */
+export function replySuccess(information: string): any {
+    const data: EmbedData = {
+        description: information,
+        color: 0x22bb33,
     };
     const embed = new EmbedBuilder(data);
     return {embeds: [embed]};

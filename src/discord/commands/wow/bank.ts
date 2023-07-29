@@ -21,15 +21,13 @@ async function handleBankSet(bot: Client, interaction: ChatInputCommandInteracti
     // character name
     let name = interaction.options.get(SUB_SET_ARG_NAME)!.value;
     if (typeof name !== 'string') {
-        await interaction.editReply(replyError(`argument \`${SUB_SET_ARG_NAME}\` is not a string`))
-            .catch(e => logger.error(`failed to reply: ${e}`));
+        await interaction.editReply(replyError(`argument \`${SUB_SET_ARG_NAME}\` is not a string`));
         return;
     }
     // character realm
     let realm = interaction.options.get(SUB_SET_ARG_REALM)!.value;
     if (typeof realm !== 'string') {
-        await interaction.editReply(replyError(`argument \`${SUB_SET_ARG_REALM}\` is not a string`))
-            .catch(e => logger.error(`failed to reply: ${e}`));
+        await interaction.editReply(replyError(`argument \`${SUB_SET_ARG_REALM}\` is not a string`));
         return;
     }
 
@@ -37,7 +35,7 @@ async function handleBankSet(bot: Client, interaction: ChatInputCommandInteracti
     if (!CONNECTED_REALMS.includes(realm)) {
         const reason: string = `Je ne peux pas envoyer de ${I_GOLD} sur le royaume \`${realm}\` car il est mal \
 orthographié, ou alors non connecté à \`Dalaran\`. Voici la liste des royaumes possibles:\n\n\`[${CONNECTED_REALMS}]\``;
-        await interaction.editReply(replyError(reason)).catch(e => logger.error(`failed to reply: ${e}`));
+        await interaction.editReply(replyError(reason));
         return;
     }
 
@@ -55,11 +53,7 @@ orthographié, ou alors non connecté à \`Dalaran\`. Voici la liste des royaume
             instance.name = name;
             instance.realm = realm;
 
-            await instance.save().catch(async (e: any) => {
-                await interaction.editReply(replyError(`error saving updated bank ${e}`))
-                    .catch(e => logger.error(`failed to reply: ${e}`));
-                return;
-            });
+            await instance.save();
 
             logger.debug(`modified an entry to ${instance} in Bank db`);
         }
@@ -67,18 +61,13 @@ orthographié, ou alors non connecté à \`Dalaran\`. Voici la liste des royaume
         // if !instance
         else {
             const newBank = new Bank({...query, name, realm});
-            await newBank.save().catch(async (e) => {
-                await interaction.editReply(replyError(`error saving new bank ${e}`))
-                    .catch(e => logger.error(`failed to reply: ${e}`));
-                return;
-            });
+            await newBank.save();
 
             logger.debug(`added entry ${newBank} in Bank db`);
         }
 
     } catch (error) {
-        await interaction.editReply(replyError(`error saving bank ${error}`))
-            .catch(e => logger.error(`failed to reply: ${e}`));
+        await interaction.editReply(replyError(`error saving/updating bank ${error}`));
         return;
     }
 
@@ -87,7 +76,7 @@ orthographié, ou alors non connecté à \`Dalaran\`. Voici la liste des royaume
 \`${name}-${realm}\` !\n\n<:noted:996585301935923290> Check bien que ces données sont correctes! Pas de refund si \
 les ${I_GOLD} sont envoyés à Narnia \\:s`;
 
-    await interaction.editReply(replyOk(response)).catch(e => logger.error(`failed to reply: ${e}`));
+    await interaction.editReply(replyOk(response));
 }
 
 async function handleBankShow(bot: Client, interaction: ChatInputCommandInteraction): Promise<void> {
@@ -101,20 +90,19 @@ async function handleBankShow(bot: Client, interaction: ChatInputCommandInteract
 
         if (instance) {
             const response: string = `Ton personnage-banque sur ce serveur est :bank: \`${instance.name}-${instance.realm}\``;
-            await interaction.editReply(replyOk(response)).catch(e => logger.error(`failed to reply: ${e}`));
+            await interaction.editReply(replyOk(response));
             return;
         }
 
         // if !instance
         else {
             const response: string = `Tu n'as aucun personnage-banque défini sur ce serveur`;
-            await interaction.editReply(replyOk(response)).catch(e => logger.error(`failed to reply: ${e}`));
+            await interaction.editReply(replyOk(response));
             return;
         }
 
     } catch (error) {
-        await interaction.editReply(replyError(`error fetching bank ${error}`))
-            .catch(e => logger.error(`failed to reply: ${e}`));
+        await interaction.editReply(replyError(`error fetching bank ${error}`));
         return;
     }
 }
@@ -124,8 +112,7 @@ async function handleBankList(bot: Client, interaction: ChatInputCommandInteract
 
     // FIXME temporary while discord does not allow subcommand permissions
     if (interaction.user.id !== '214381434784186378') {
-        await interaction.editReply(replyWarn(`Cette commande est réservée au postier des ${I_GOLD} \\=)`))
-            .catch(e => logger.error(`failed to reply: ${e}`));
+        await interaction.editReply(replyWarn(`Cette commande est réservée au postier des ${I_GOLD} \\=)`));
         return;
     }
 
@@ -142,8 +129,7 @@ async function handleBankList(bot: Client, interaction: ChatInputCommandInteract
         // if an argument was given, list a subset of banks only
         if (boosters) {
             if (typeof boosters !== 'string') {
-                await interaction.editReply(replyError('argument \`booster-ids\` is not a string (should be a string of space separated user ids)'))
-                    .catch(e => logger.error(`failed to reply: ${e}`));
+                await interaction.editReply(replyError('argument \`booster-ids\` is not a string (should be a string of space separated user ids)'));
                 return;
             }
 
@@ -155,8 +141,7 @@ async function handleBankList(bot: Client, interaction: ChatInputCommandInteract
 
         // if there is no bank, or if they were all filtered
         if (!instances.length) {
-            await interaction.editReply(replyOk('Aucune instance trouvée'))
-                .catch(e => logger.error(`failed to reply: ${e}`));
+            await interaction.editReply(replyOk('Aucune instance trouvée'));
             return;
         }
 
@@ -168,16 +153,15 @@ async function handleBankList(bot: Client, interaction: ChatInputCommandInteract
             title: `:bank: | Gold banks | :bank:`,
             description: `Type: ${boosters ? '\`selective\`' : '\`full guild\`'}`,
             fields: [
-                {name: 'userId', value: instances.map((b: any) => `${I_SWORD} <@${b.userId}>`).join('\n'), inline: true},
+                {name: 'userId', value: instances.map((b: any, idx: number) => `\`${String(1+idx).padStart(2, '0')}\` ${I_SWORD} <@${b.userId}>`).join('\n'), inline: true},
                 {name: 'bank', value: banks.join('\n'), inline: true},
             ],
         });
 
-        await interaction.editReply({embeds: [embed]}).catch(e => logger.error(`failed to reply: ${e}`));
+        await interaction.editReply({embeds: [embed]});
 
     } catch (error) {
-        await interaction.editReply(replyError(`error fetching banks ${error}`))
-            .catch(e => logger.error(`failed to reply: ${e}`));
+        await interaction.editReply(replyError(`error fetching banks ${error}`));
         return;
     }
 }
@@ -242,8 +226,7 @@ export const bank: any = {
                 await handleBankList(bot, interaction);
                 return;
             default:
-                await interaction.reply(replyError(`subcommand \`${interaction.options.getSubcommand()}\` does not exist`))
-                    .catch(e => logger.error(`failed to reply: ${e}`));
+                await interaction.reply(replyError(`subcommand \`${interaction.options.getSubcommand()}\` does not exist`));
                 return;
         }
     }
