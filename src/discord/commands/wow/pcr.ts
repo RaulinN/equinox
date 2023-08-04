@@ -106,7 +106,7 @@ function buildPcr(interaction: ChatInputCommandInteraction): [string, EmbedData 
         : `${I_TANK} ${numberBoosters} Tank`;
 
     const data: EmbedData = {
-        title: `${I_RAID} | Ashes Aberrus \\#1 | ${I_RAID}`,
+        title: `${I_RAID} | Ashes Aberrus | ${I_RAID}`,
         color: 0xf0ad4e,
         fields: [
             {name: 'Status:', value: ':hourglass: Pending...', inline: true},
@@ -119,8 +119,8 @@ function buildPcr(interaction: ChatInputCommandInteraction): [string, EmbedData 
             {name: 'Advertisers:', value: `${I_GOLD} ${nf.format(cutAdvertisers)}`, inline: true},
             {name: 'Gold Collector:', value: `${I_GOLD} ${nf.format(cutCollector)}`, inline: true},
             {name: 'Raidleaders:', value: `${I_CROWN} ${user}`, inline: true},
-            //{name: 'Cut:', value: `${I_GOLD} ${nf.format(cutRaidLeader)}`, inline: true},
-            {name: '\u200b', value: '\u200b', inline: true}, // blank cell
+            {name: 'Cut:', value: `${I_GOLD} ${nf.format(cutRaidLeader)}`, inline: true},
+            //{name: '\u200b', value: '\u200b', inline: true}, // blank cell
             {name: '\u200b', value: '\u200b', inline: true}, // blank cell
             {name: 'Boosters:', value: boostersNameEmbed, inline: true},
             {name: 'Cut:', value: boostersCutEmbed, inline: true},
