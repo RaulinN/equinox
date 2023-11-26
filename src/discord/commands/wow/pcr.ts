@@ -20,12 +20,12 @@ import { Boost } from '../../../schemas/Boost.js';
 import { Transaction } from '../../../schemas/Transaction.js';
 import { Bank } from '../../../schemas/Bank.js';
 
-const P_CUT_BOOSTERS: number = 0.625;
-const P_CUT_ADVERTISERS: number = 0.275;
+export const P_CUT_BOOSTERS: number = 0.6;
+export const P_CUT_ADVERTISERS: number = 0.3;
 // const P_CUT_RCU: number = 1 - P_CUT_BOOSTERS - P_CUT_ADVERTISERS;
 
-const P_CUT_COLLECTOR: number = 0.01;
-const P_CUT_RL: number = 0.035;
+export const P_CUT_COLLECTOR: number = 0.01;
+export const P_CUT_RL: number = 0.035;
 
 const ROLE_BOOSTER: string = '<@&1131932731836731452>';
 
@@ -106,7 +106,7 @@ function buildPcr(interaction: ChatInputCommandInteraction): [string, EmbedData 
         : `${I_TANK} ${numberBoosters} Tank`;
 
     const data: EmbedData = {
-        title: `${I_RAID} | Ashes Aberrus | ${I_RAID}`,
+        title: `${I_RAID} | Ashes Amirdrassil | ${I_RAID}`,
         color: 0xf0ad4e,
         fields: [
             {name: 'Status:', value: ':hourglass: Pending...', inline: true},

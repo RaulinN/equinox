@@ -109,6 +109,7 @@ export default async function handleButtons(bot: Client, interaction: any): Prom
 
                 const feedback = new Feedback({ userId: modalInteraction.user.id, guildId: modalInteraction.guildId, feedback: feedbackValue, date: Date.now() });
                 await feedback.save();
+                logger.debug(`Nouveau feedback de ${modalInteraction.user.id} : ${feedbackValue}`);
 
                 const data: EmbedData = {
                     title: 'Un feedback sauvage apparaît!',
