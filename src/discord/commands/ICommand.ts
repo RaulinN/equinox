@@ -19,5 +19,8 @@ export interface ICommand {
     permissionsRequired?: (typeof PermissionFlagsBits)[],
     botPermissions?: (typeof PermissionFlagsBits)[],
     deleted?: boolean,
-    callback: (bot: Client, interaction: any) => void
+    callback: (bot: Client, interaction: any) => void,
+
+    // context menu
+    type?: ApplicationCommandOptionType,
 }

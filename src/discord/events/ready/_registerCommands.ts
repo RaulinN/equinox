@@ -19,7 +19,7 @@ export default async function registerCommands(bot: Client): Promise<void> {
         const applicationCommands = await getApplicationCommands(bot);
 
         for (const localCommand of localCommands) {
-            const {name, description, options} = localCommand;
+            const {name, description, options, type} = localCommand;
 
             const existingCommand = await applicationCommands.cache.find((cmd: ICommand) => cmd.name === name);
 
@@ -46,11 +46,20 @@ export default async function registerCommands(bot: Client): Promise<void> {
                     continue;
                 }
 
-                await applicationCommands.create({
-                    name,
-                    description,
-                    options,
-                });
+                // type undefined => slash command
+                if (!type) {
+                    await applicationCommands.create({
+                        name,
+                        description,
+                        options,
+                    });
+                // type defined => context menu command
+                } else {
+                    await applicationCommands.create({
+                        name,
+                        type,
+                    });
+                }
 
                 logger.info(`➕ registered command '${name}'`);
             }

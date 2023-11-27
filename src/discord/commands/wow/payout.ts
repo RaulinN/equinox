@@ -34,35 +34,16 @@ function buildPayout(boostId: string, boosterIds: string[], banks: any[], amount
     };
 }
 
-
 /**
- * Local custom payout command
+ * Sends a payout interaction reply for boost id boostId
+ *
+ * @param interaction interaction that triggered the payout
+ * @param boostId Id of the boost
  */
-export const payout: ICommand = {
-    name: 'payout',
-    description: 'Display next payout',
-    devOnly: true,
-    options: [
-        {
-            name: 'boost-id',
-            description: 'The id of the boost in question',
-            type: ApplicationCommandOptionType.String,
-            required: true,
-        }
-    ],
-    callback: async (bot: Client, interaction: any) => {
-        if (!interaction.inGuild() || interaction.user.bot) return;
+export async function sendPayoutMessage(interaction: any, boostId: string) {
+    await interaction.deferReply();
 
-        await interaction.deferReply();
-
-
-        const boostId = interaction.options.get('boost-id')!.value;
-        if (typeof boostId !== 'string') {
-            await interaction.editReply(replyError('argument \`boostId\` is not a string'));
-            return;
-        }
-
-
+    try {
         const guildId = interaction.guildId;
         const boostMessage: Message = await interaction.channel.messages.fetch(boostId);
         const boostEmbed: Embed = boostMessage.embeds[0];
@@ -110,5 +91,36 @@ export const payout: ICommand = {
             embeds: [embedPayouts],
             components: [row],
         });
+    } catch (e) {
+        await interaction.editReply(replyError(`error while creating payout information: ${e}`));
+    }
+}
+
+
+/**
+ * Local custom payout command
+ */
+export const payout: ICommand = {
+    name: 'payout',
+    description: 'Display next payout',
+    devOnly: true,
+    options: [
+        {
+            name: 'boost-id',
+            description: 'The id of the boost in question',
+            type: ApplicationCommandOptionType.String,
+            required: true,
+        }
+    ],
+    callback: async (bot: Client, interaction: any) => {
+        if (!interaction.inGuild() || interaction.user.bot) return;
+
+        const boostId = interaction.options.get('boost-id')!.value;
+        if (typeof boostId !== 'string') {
+            await interaction.reply(replyError('argument \`boostId\` is not a string'));
+            return;
+        }
+
+        await sendPayoutMessage(interaction, boostId);
     }
 }
