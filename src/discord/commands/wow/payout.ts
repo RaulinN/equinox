@@ -1,20 +1,15 @@
 import {
     ActionRowBuilder,
     ApplicationCommandOptionType,
-    ButtonBuilder,
-    ButtonInteraction,
-    ButtonStyle,
     Client,
-    ComponentType,
     Embed,
     EmbedBuilder,
     EmbedData,
-    InteractionCollector,
-    Message
+    Message, StringSelectMenuBuilder, StringSelectMenuOptionBuilder
 } from 'discord.js';
 import { ICommand } from '../ICommand.js';
 import { replyError } from '../../embeds/responses.js';
-import { I_GOLD, UID_WEXUS } from '../../utils/index.js';
+import { I_GOLD } from '../../utils/index.js';
 import { Bank } from '../../../schemas/Bank.js';
 
 function buildPayout(boostId: string, boosterIds: string[], banks: any[], amounts: string[]): EmbedData {
@@ -90,40 +85,30 @@ export const payout: ICommand = {
         const embedDataPayout: EmbedData = buildPayout(boostId, boosterIds, banks, amounts);
         const embedPayouts = new EmbedBuilder(embedDataPayout);
         let reply = await interaction.editReply({
-            content: '# Etat des transferts',
             embeds: [embedPayouts],
             components: [],
         });
 
         const payoutId: string = reply.id;
 
-        // create buttons
-        let rows: any[] = [];
-        let n: number = 1;
-        let row: any = new ActionRowBuilder();
-        for (const _ of boosterIds) {
-            row.addComponents(new ButtonBuilder()
-                .setLabel(`${String(n).padStart(2, '0')}`)
-                .setEmoji('✉️')
-                .setStyle(ButtonStyle.Danger)
-                .setCustomId(`payout.${boostId}.${payoutId}.4.${n}`));
+        const options: any = boosterIds.map((bid: string, idx: number) => new StringSelectMenuOptionBuilder()
+            .setLabel(`${String(idx + 1).padStart(2, '0')} – ${bid}`)
+            .setValue(`${idx + 1}`)
+            .setEmoji('✉')
+        );
 
-            if (n % 5 === 0) {
-                rows.push(row);
-                row = new ActionRowBuilder();
-            }
+        const selectMenu: any = new StringSelectMenuBuilder()
+            .setCustomId(`payout.single-recipient.${boostId}.${payoutId}`)
+            .setPlaceholder('Make a selection...')
+            .setMinValues(0)
+            .setMaxValues(boosterIds.length)
+            .addOptions(options)
 
-            n += 1;
-        }
-
-        if (n % 5 !== 1) {
-            rows.push(row);
-        }
+        const row = new ActionRowBuilder().addComponents(selectMenu);
 
         await interaction.editReply({
-            content: '# Etat des transferts',
             embeds: [embedPayouts],
-            components: rows,
+            components: [row],
         });
     }
 }

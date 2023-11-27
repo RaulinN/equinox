@@ -132,13 +132,8 @@ function buildPcr(interaction: ChatInputCommandInteraction): [string, EmbedData 
     };
 
 
-    const message: string = `${ROLE_BOOSTER} Un admin rcu a marqué le boost ci-dessus comme complété! \
-Ce que cela veut dire pour toi, c'est que tu recevras bientôt (à la fin du cycle en cours) la somme de \
-${I_GOLD} **${nf.format(cutByBooster)}**.\n\nLes cuts sont calculées automatiquement par rcu via la distribution \
-que tu peux trouver sur leur serveur discord \
-https://discord.com/channels/658505246410014731/999792306209165412/1128748146747519116.\n\nVoici le détail du boost:`;
-
-    return [message, data];
+    // message is a ping to the booster role
+    return [ROLE_BOOSTER, data];
 }
 
 async function clickDelete(interactionButton: ButtonInteraction, replyMessage: any, data: EmbedData) {
@@ -176,7 +171,7 @@ async function clickApprove(interactionButton: ButtonInteraction, replyMessage: 
 
 
     // save in Boost & Transaction
-    let entries = [];
+    let entries: any = [];
     const boost = new Boost({ guildId, boostId, date: Date.now()});
     const rlCut = new Transaction({
         userId: rl,
