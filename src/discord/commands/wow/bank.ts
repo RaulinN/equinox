@@ -1,13 +1,16 @@
 import {
     ActionRowBuilder,
     ApplicationCommandOptionType,
-    ButtonBuilder, ButtonInteraction,
+    ButtonBuilder,
+    ButtonInteraction,
     ButtonStyle,
     ChatInputCommandInteraction,
-    Client, ComponentType,
-    EmbedBuilder, InteractionCollector
+    Client,
+    ComponentType,
+    EmbedBuilder,
+    InteractionCollector
 } from 'discord.js';
-import { I_GOLD, I_SWORD, UID_WEXUS } from '../../utils/index.js';
+import { I_GOLD, I_SWORD } from '../../utils/index.js';
 import { replyError, replyOk, replyWarn } from '../../embeds/responses.js';
 import { logger } from '../../../logger/Logger.js';
 import { Bank } from '../../../schemas/Bank.js';
@@ -102,7 +105,10 @@ automatisés pour ces royaumes!`;
                 }
 
                 await interaction.editReply({components: []});
-                await interactionButton.reply({...replyOk(`All good! Ton personnage-banque est maintenant \`${name}-${realm}\``), ephemeral: true})
+                await interactionButton.reply({
+                    ...replyOk(`All good! Ton personnage-banque est maintenant \`${name}-${realm}\``),
+                    ephemeral: true
+                })
                 return;
             }
         });
@@ -207,7 +213,11 @@ async function handleBankList(bot: Client, interaction: ChatInputCommandInteract
             title: `:bank: | Gold banks | :bank:`,
             description: `Type: ${boosters ? '\`selective\`' : '\`full guild\`'}`,
             fields: [
-                {name: 'userId', value: instances.map((b: any, idx: number) => `\`${String(1+idx).padStart(2, '0')}\` ${I_SWORD} <@${b.userId}>`).join('\n'), inline: true},
+                {
+                    name: 'userId',
+                    value: instances.map((b: any, idx: number) => `\`${String(1 + idx).padStart(2, '0')}\` ${I_SWORD} <@${b.userId}>`).join('\n'),
+                    inline: true
+                },
                 {name: 'bank', value: banks.join('\n'), inline: true},
             ],
         });

@@ -1,9 +1,11 @@
 import {
-    ActionRowBuilder, ApplicationCommandOptionType,
+    ActionRowBuilder,
+    ApplicationCommandOptionType,
     ButtonBuilder,
     ButtonStyle,
     ChatInputCommandInteraction,
-    Client, EmbedBuilder,
+    Client,
+    EmbedBuilder,
     EmbedData
 } from 'discord.js';
 import { ICommand } from '../ICommand.js';
@@ -32,9 +34,9 @@ export const setupFeedback: ICommand = {
         const notifChannelId: string = interaction.options.get('announcement-channel')!.value as string;
 
         let row: any = new ActionRowBuilder().addComponents((new ButtonBuilder()
-            .setEmoji('✉️')
-            .setStyle(ButtonStyle.Primary)
-            .setCustomId(`setup-feedback.${sourceChannelId}.${notifChannelId}`)
+                .setEmoji('✉️')
+                .setStyle(ButtonStyle.Primary)
+                .setCustomId(`setup-feedback.${sourceChannelId}.${notifChannelId}`)
         ) as any);
 
         const description: string = 'Clique sur le bouton ci-dessous pour envoyer un **feedback / idée** aux off =)\n\n \
@@ -55,6 +57,6 @@ Voici des exemples de discussions:\n\
         };
         const embed = new EmbedBuilder(data);
 
-        await interaction.editReply({ embeds: [embed], components: [row] });
+        await interaction.editReply({embeds: [embed], components: [row]});
     }
 }

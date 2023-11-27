@@ -53,7 +53,7 @@ export default async function registerCommands(bot: Client): Promise<void> {
                         description,
                         options,
                     });
-                // type defined => context menu command
+                    // type defined => context menu command
                 } else {
                     await applicationCommands.create({
                         name,

@@ -20,8 +20,10 @@ export default async function handleSelectMenus(bot: Client, interaction: any): 
 
             // checking permissions
             if (interaction.user.id !== UID_WEXUS) {
-                await interaction.reply({...replyWarn('Don\'t worry I\'ll handle that \\=) Ces options sont là pour ' +
-                        'moi afin de pouvoir facilement m\'indiquer qui il me reste à payer'), ephemeral: true});
+                await interaction.reply({
+                    ...replyWarn('Don\'t worry I\'ll handle that \\=) Ces options sont là pour ' +
+                        'moi afin de pouvoir facilement m\'indiquer qui il me reste à payer'), ephemeral: true
+                });
                 return;
             }
 

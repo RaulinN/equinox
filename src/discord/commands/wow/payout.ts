@@ -5,7 +5,9 @@ import {
     Embed,
     EmbedBuilder,
     EmbedData,
-    Message, StringSelectMenuBuilder, StringSelectMenuOptionBuilder
+    Message,
+    StringSelectMenuBuilder,
+    StringSelectMenuOptionBuilder
 } from 'discord.js';
 import { ICommand } from '../ICommand.js';
 import { replyError } from '../../embeds/responses.js';
@@ -15,7 +17,7 @@ import { Bank } from '../../../schemas/Bank.js';
 function buildPayout(boostId: string, boosterIds: string[], banks: any[], amounts: string[]): EmbedData {
     let nf = new Intl.NumberFormat('en-US');
 
-    const vUserIds: string[] = boosterIds.map((bid: string, idx: number) => `:no_entry_sign: \`${String(1+idx).padStart(2, '0')}\` <@${bid}>`);
+    const vUserIds: string[] = boosterIds.map((bid: string, idx: number) => `:no_entry_sign: \`${String(1 + idx).padStart(2, '0')}\` <@${bid}>`);
     const vBanks: string[] = banks.map((b: any) => b
         ? `\`${b.name}-${b.realm}\``
         : '_Not specified_'

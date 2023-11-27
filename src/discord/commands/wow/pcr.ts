@@ -11,14 +11,13 @@ import {
     Embed,
     EmbedBuilder,
     EmbedData,
-    InteractionCollector, InteractionResponse
+    InteractionCollector
 } from 'discord.js';
 import { I_ADV, I_CROWN, I_GOLD, I_RAID, I_SWORD, I_TANK, UID_WEXUS } from '../../utils/index.js';
 import { replyError, replySuccess } from '../../embeds/responses.js';
 import { logger } from '../../../logger/Logger.js';
 import { Boost } from '../../../schemas/Boost.js';
 import { Transaction } from '../../../schemas/Transaction.js';
-import { Bank } from '../../../schemas/Bank.js';
 
 export const P_CUT_BOOSTERS: number = 0.6;
 export const P_CUT_ADVERTISERS: number = 0.3;
@@ -172,7 +171,7 @@ async function clickApprove(interactionButton: ButtonInteraction, replyMessage: 
 
     // save in Boost & Transaction
     let entries: any = [];
-    const boost = new Boost({ guildId, boostId, date: Date.now()});
+    const boost = new Boost({guildId, boostId, date: Date.now()});
     const rlCut = new Transaction({
         userId: rl,
         guildId: guildId,
@@ -289,9 +288,7 @@ export const pcr: ICommand = {
                 const resultMessage = `🗑️  Deleted PCR **${data.title}**`;
                 logger.info(resultMessage);
                 await interactionButton.editReply(replySuccess(resultMessage));
-            }
-
-            else if (interactionButton.customId === 'pcr.approve') {
+            } else if (interactionButton.customId === 'pcr.approve') {
                 const [boostId, boosters, amounts] = await clickApprove(interactionButton, replyMessage, data);
 
                 const resultMessage: string = `✅ Approved PCR **${data.title}**`;

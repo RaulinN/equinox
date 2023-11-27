@@ -1,7 +1,8 @@
 import {
     ActionRowBuilder,
     Client,
-    EmbedBuilder, EmbedData,
+    EmbedBuilder,
+    EmbedData,
     ModalBuilder,
     TextChannel,
     TextInputBuilder,
@@ -49,10 +50,15 @@ export default async function handleButtons(bot: Client, interaction: any): Prom
             await interaction.showModal(modal);
 
             const filter = (interaction: any) => interaction.customId === modalId;
-            interaction.awaitModalSubmit({ filter, time: MODAL_TIME }).then(async (modalInteraction: any) => {
+            interaction.awaitModalSubmit({filter, time: MODAL_TIME}).then(async (modalInteraction: any) => {
                 const feedbackValue: string = modalInteraction.fields.getTextInputValue(modalInputId);
 
-                const feedback = new Feedback({ userId: modalInteraction.user.id, guildId: modalInteraction.guildId, feedback: feedbackValue, date: Date.now() });
+                const feedback = new Feedback({
+                    userId: modalInteraction.user.id,
+                    guildId: modalInteraction.guildId,
+                    feedback: feedbackValue,
+                    date: Date.now()
+                });
                 await feedback.save();
                 logger.debug(`Nouveau feedback de ${modalInteraction.user.id} : ${feedbackValue}`);
 
@@ -63,8 +69,8 @@ export default async function handleButtons(bot: Client, interaction: any): Prom
                 };
                 const embed = new EmbedBuilder(data);
 
-                (bot.channels.cache.get(notifChannelId) as TextChannel).send({ embeds: [embed] });
-                modalInteraction.reply({ content: 'Ton feedback a été envoyé anonymement!', ephemeral: true });
+                (bot.channels.cache.get(notifChannelId) as TextChannel).send({embeds: [embed]});
+                modalInteraction.reply({content: 'Ton feedback a été envoyé anonymement!', ephemeral: true});
             }).catch((err: any) => logger.error(err));
         }
     } catch (e) {

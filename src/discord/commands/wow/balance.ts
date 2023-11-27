@@ -1,7 +1,6 @@
 import { ICommand } from '../ICommand.js';
 import { ChatInputCommandInteraction, Client } from 'discord.js';
 import { replyWarn } from '../../embeds/responses.js';
-import { logger } from '../../../logger/Logger.js';
 
 /**
  * Local custom balance command
